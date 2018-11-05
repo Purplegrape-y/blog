@@ -63,6 +63,17 @@ app.post('/register',(req,res) => {
     })
 })
 
+//登录接口
+app.post('/login',(req,res) => {
+    const user = req.body
+    const querySql = 'select * from users where username = ? and password = ?'
+    conn.query(querySql,[user.username,user.password],(err,result) => {
+        if(err) return res.status(500).send({status: 500, msg: '登录失败!请重试!'})
+        if(result.length === 0) return res.status(400).send({status: 400, msg: '用户名或密码错误!请重试!'})
+        res.send({status: 200, msg: '恭喜您!登录成功!'})
+
+    })
+})
 
 
 
