@@ -53,8 +53,28 @@ module.exports = {
         conn.query(querySql,[user.username,user.password],(err,result) => {
             if(err) return res.status(500).send({status: 500, msg: '登录失败!请重试!'})
             if(result.length === 0) return res.status(400).send({status: 400, msg: '用户名或密码错误!请重试!'})
+
+            // console.log(req.session)
+            // 登录成功后存储用户信息到session中
+            req.session.user = result[0]
+            // 存储登录状态
+            req.session.isLogin = true
+
+            // 设置cookie存储时间
+            let hour = 1000 * 60 * 60 * 24 * 30
+            req.session.cookie.expires = new Date(Date.now() + hour)
+
             res.send({status: 200, msg: '恭喜您!登录成功!'})
-    
+
+
+        })
+    },
+
+    //注销
+    handleLogoutGet (req,res){
+        // 销毁session
+        req.session.destroy(err => {
+            res.redirect('/')
         })
     }
 }
