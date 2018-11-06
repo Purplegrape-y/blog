@@ -11,4 +11,6 @@ router.post('/register',ctrl.handleRegisterPost)
 //登录接口
 router.post('/login',ctrl.handleLoginPost)
 
+//注销接口
+router.get('/logout',ctrl.handleLogoutGet)
 module.exports = router
