@@ -54,7 +54,6 @@ module.exports = {
             if(err) return res.status(500).send({status: 500, msg: '登录失败!请重试!'})
             if(result.length === 0) return res.status(400).send({status: 400, msg: '用户名或密码错误!请重试!'})
 
-            // console.log(req.session)
             // 登录成功后存储用户信息到session中
             req.session.user = result[0]
             // 存储登录状态
@@ -63,6 +62,7 @@ module.exports = {
             // 设置cookie存储时间
             let hour = 1000 * 60 * 60 * 24 * 30
             req.session.cookie.expires = new Date(Date.now() + hour)
+            // console.log(req.session)
 
             res.send({status: 200, msg: '恭喜您!登录成功!'})
 
