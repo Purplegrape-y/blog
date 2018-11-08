@@ -11,5 +11,8 @@ router.post('/article/add',ctrl.handleArticleAddPost)
 //文章详情页
 router.get('/article/info/:id',ctrl.showArticleInfoPage)
 
-// router.post('/article/info/:id',ctrl.handleArticleInfoPost)
+// 编辑文章页
+router.get('/article/edit/:id',ctrl.showArticleEditPage)
+
+router.post('/article/edit',ctrl.handleArticleEditPost)
 module.exports = router
