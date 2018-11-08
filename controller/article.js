@@ -1,5 +1,5 @@
 const moment = require("moment");
-
+const marked = require('marked')
 const mysql = require("mysql");
 const conn = mysql.createConnection({
   host: "127.0.0.1",
@@ -38,9 +38,22 @@ module.exports = {
 
   //文章详情页
   showArticleInfoPage(req,res){
-    res.render('./articles/info.ejs', {
-        user: req.session.user,
-        isLogin: req.session.isLogin
+    const id = req.params.id
+    const querySql = 'select * from articles where id = ?'
+    conn.query(querySql,id,(err,result) => {
+        if(err || result.length !== 1) return res.send({ status: 500, msg: "文章获取失败,请重试!" })
+
+        result[0].content = marked(result[0].content)
+        res.render('./article/info.ejs', {
+          user: req.session.user,
+          isLogin: req.session.isLogin,
+          article:result[0]
+      })
     })
-  }
+    
+  },
+
+  // handleArticleInfoPost(req,res){
+
+  // }
 };
