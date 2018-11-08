@@ -18,7 +18,7 @@ module.exports = {
       isLogin: req.session.isLogin
     });
   },
-
+  //发表文章
   handleArticleAddPost(req, res) {
     if (!req.session.isLogin)
       return res
@@ -74,8 +74,9 @@ module.exports = {
   //编辑文章保存
   handleArticleEditPost(req,res){
     const article = req.body
+    console.log(article.content)
     article.ctime = moment().format('YYYY-MM-DD HH:mm:ss')
-    console.log(article)
+    // console.log(article)
     const updateSql = 'update articles set ? where id = ?'
     conn.query(updateSql,[article,article.id],(err,result) => {
       if (err || result.affectedRows !== 1) return res.status(400).send({ status: 400, msg: '修改文章失败, 请重试!', data: null })
